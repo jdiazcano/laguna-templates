@@ -34,61 +34,25 @@ kotlin {
 
     val linux = linuxX64("linux") {
         binaries {
-            executable("laguna") {
+            executable("{{name}}") {
                 entryPoint = "${project.ext["mainPackage"]}.main"
-            }
-        }
-
-        compilations["main"].cinterops {
-            val libgit2 by creating {
-                packageName = "libgit2"
-                defFile(project.file("common-native/nativeInterop/libgit2.def"))
-                includeDirs.headerFilterOnly("/usr/include")
             }
         }
     }
 
     val macos = macosX64("macos") {
         binaries {
-            executable("laguna") {
+            executable("{{name}}") {
                 entryPoint = "${project.ext["mainPackage"]}.main"
             }
         }
-
-        compilations["main"].cinterops {
-            val libgit2 by creating {
-                packageName = "libgit2"
-                defFile(project.file("common-native/nativeInterop/libgit2.def"))
-                includeDirs.headerFilterOnly("/opt/local/include", "/usr/local/include")
-            }
-        }
     }
-
-//    val windows = mingwX64("windows") {
-//        binaries {
-//            executable("laguna") {
-//                entryPoint = "${project.ext["mainPackage"]}.main"
-//            }
-//        }
-//
-//        compilations["main"].cinterops {
-//            val libgit2 by creating {
-//                packageName = "libgit2"
-//                defFile(project.file("common-native/nativeInterop/libgit2.def"))
-//                includeDirs.headerFilterOnly(mingwPath.resolve("include"))
-//            }
-//        }
-//    }
 
     sourceSets {
         val commonMain by getting {
             kotlin.srcDir("common/src")
             dependencies {
                 implementation(kotlin("stdlib-common", "1.3.70"))
-
-                implementation(Libraries.jetbrains.kotlin.coroutinesCommon)
-                implementation(Libraries.cliktMultiplatform)
-                implementation(Libraries.korlibs.korte)
             }
         }
 
@@ -104,7 +68,6 @@ kotlin {
             kotlin.srcDir("common-native/src")
             dependsOn(commonMain)
             dependencies {
-                implementation(Libraries.jetbrains.kotlin.coroutinesNative)
             }
         }
 
@@ -125,16 +88,6 @@ kotlin {
             dependsOn(nativeTest)
         }
 
-//        val windowsMain by getting {
-//            kotlin.srcDirs("windows/src")
-//            dependsOn(native)
-//        }
-//
-//        val windowsTest by getting {
-//            kotlin.srcDirs("windows/tst")
-//            dependsOn(windowsMain)
-//        }
-//
         val macosMain by getting {
             kotlin.srcDir("macos/src")
             dependsOn(native)
@@ -150,8 +103,6 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation(Libraries.ktor.client.kotlinxSerializationJvm)
-                implementation(Libraries.ktor.client.cio)
             }
         }
 
@@ -164,7 +115,7 @@ kotlin {
     }
 }
 
-val releaseCurrent by tasks.registering {
-    dependsOn("linkLagunaDebugExecutable${currentOs.capitalize()}")
-    dependsOn("linkLagunaReleaseExecutable${currentOs.capitalize()}")
+val release by tasks.registering {
+    dependsOn("link${"{{name}}".capitalize()}DebugExecutable${currentOs.capitalize()}")
+    dependsOn("link${"{{name}}".capitalize()}ReleaseExecutable${currentOs.capitalize()}")
 }
