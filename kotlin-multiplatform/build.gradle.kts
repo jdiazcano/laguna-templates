@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.3.70"
 }
 
-apply(from = Gradles.repositories)
+apply(from = "buildSrc/gradle/repositories.gradle.kts")
 
 project.ext["mainPackage"] = "com.example"
 project.ext["className"] = "{{name}}"
