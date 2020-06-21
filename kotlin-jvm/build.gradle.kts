@@ -16,4 +16,6 @@ application {
 
 dependencies {
     implementation(kotlin("stdlib"))
+
+    testImplementation("io.mockk:mockk:1.10.0")
 }
