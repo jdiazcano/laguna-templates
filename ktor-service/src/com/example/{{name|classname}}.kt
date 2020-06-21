@@ -25,7 +25,7 @@ val rootRouting = { routing: Routing ->
 }
 
 val demoRouting = { routing: Routing ->
-    routing.get {
+    routing.get("/demo") {
         call.respondText("HELLO {{name|upper}}!")
     }
 }
