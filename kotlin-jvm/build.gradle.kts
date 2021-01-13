@@ -8,7 +8,7 @@ apply(from = "buildSrc/gradle/repositories.gradle.kts")
 apply(from = "buildSrc/gradle/sourcesets.gradle.kts")
 
 project.ext["mainPackage"] = "com.example"
-project.ext["className"] = "{{name|classname}}"
+project.ext["className"] = "{{name|camel_case}}"
 
 application {
     mainClassName = "${project.ext["mainPackage"]}.${project.ext["className"]}"

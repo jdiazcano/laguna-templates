@@ -1,4 +1,4 @@
-@file:JvmName("{{name|classname}}")
+@file:JvmName("{{name|camel_case}}")
 package com.example
 
 fun main(args: Array<String>) {
